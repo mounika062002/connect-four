@@ -1,0 +1,170 @@
+package com.example.connect4;
+
+import com.sun.javafx.stage.EmbeddedWindow;
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+import javafx.scene.Parent;
+import javafx.fxml.LoadException;
+import java.io.IOException;
+import java.lang.RuntimeException;
+
+
+
+
+public class main extends Application {
+    private ModuleLayer.Controller controller;
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        String name;
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("game.fxml"));
+        GridPane rootGridPane = loader.load();
+        controller  = loader.getController();
+
+        controller.createPlayground();
+        MenuBar menuBar= createMenu();
+        menuBar.prefWidthProperty().bind(primaryStage.widthProperty());
+
+       Pane menuPane= (Pane) rootGridPane.getChildren().get(0);
+      menuPane.getChildren().add(menuBar);
+
+        Scene scene = new Scene(rootGridPane);
+
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("connect four");
+        primaryStage.setResizable(false);
+        primaryStage.show();
+
+
+    }
+    private MenuBar createMenu(){
+        String text;
+
+        Menu fileMenu = new Menu("file");
+        MenuItem newGame = new MenuItem("new game");
+        newGame.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                resetGame();
+            }
+        });
+        MenuItem resetGame = new MenuItem("reset game");
+        resetGame.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                resetGame();
+            }
+        });
+        SeparatorMenuItem separatorMenuItem = new SeparatorMenuItem();
+        MenuItem exitGame = new MenuItem( "exit game");
+        exitGame.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                exitGame();
+            }
+        });
+
+        fileMenu.getItems().addAll(newGame, resetGame , separatorMenuItem , exitGame);
+// help menu
+        Menu helpMenu = new Menu( "Help");
+        MenuItem aboutGame = new MenuItem("About connect 4");
+        aboutGame.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                aboutConnect4();
+            }
+        });
+        SeparatorMenuItem separator  = new SeparatorMenuItem();
+        helpMenu.getItems().addAll(aboutGame, separator);
+
+        MenuBar menuBar = new MenuBar();
+        menuBar.getMenus().addAll(fileMenu, helpMenu);
+        return menuBar;
+    }
+
+    private void aboutConnect4() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("About connect 4");
+        alert.setHeaderText("how to play?");
+        alert.setContentText("Connect four is a two-player connection game in which the players first choose a colour and then take turns droppingcolored discs" +
+                "from the top into a seven column, six row vertically suspended grid" + "The pieces fall straight down, occuping the next available space within the column." +
+                "The objective of this game is to be the first to form a horizontal,vertical,diagonal line of four of one's own disc."
+        );
+        alert.show();
+
+    }
+
+    private void exitGame() {
+        Platform.exit();
+        System.exit(0);
+    }
+
+    private void resetGame() {
+       // uyfkgjghoihujgh
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+}
+package com.example.connect4 ;
+
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
+
+import java.awt.*;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class controller implements Initializable {
+    private static final int COLUMNS=7;
+    private static final int ROWS=6;
+    private static final int CIRCLE_DIAMETER=80;
+    private static final String discColor1 = "#24303E";
+    private static final String discColor2 = "#4CAA88";
+
+
+
+    private static String PLAYER_ONE = "player one";
+    private static String PLAYER_TWO = "player Two";
+
+    private boolean isPlayerOneTurn = true;
+
+    @FXML
+    public GridPane  rootGridPane;
+
+    @FXML
+    public Pane  insertedDiscsPane;
+
+    @FXML
+    public Label playerNameLabel;
+
+    public void createPlayground(){
+        Shape rectangleWithHoles = (Shape) new Rectangle(COLUMNS * CIRCLE_DIAMETER , ROWS*CIRCLE_DIAMETER);
+        rectangleWithHoles.set
+        rootGridPane.add((Node) rectangleWithHoles,0,1);
+
+    }
+    public void setFill(){
+
+    }
+
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    }
+}
+
